@@ -12,7 +12,7 @@ Humberto Filho
 
 Melissa Moura
 
-## 🚀 Atividades
+## Atividades
 
 ### 1. Posto de Combustível
 Calcula o valor a ser pago pelo cliente com base no tipo de combustível (Álcool ou Gasolina), quantidade de litros e descontos progressivos.
@@ -40,22 +40,22 @@ Lê valores até que o usuário insira `-1`. Ao final, exibe:
 - Soma e média;
 - Quantos valores ficaram acima da média.
 
-### 8. API RestCountries 🌍
+### 8. API RestCountries 
 Consome a API [RestCountries](https://restcountries.com/) para exibir informações de um país informado pelo usuário:
 - Nome, linguagens, região, sub-região e capital;
 - Moeda (sigla, nome e símbolo);
 - Lista de países que fazem fronteira.
 
-### 9. API ExchangeRate 💱
+### 9. API ExchangeRate 
 Consome a API [ExchangeRate](https://api.exchangerate-api.com/v4/latest/BRL) para exibir a cotação do Real em relação a uma moeda escolhida pelo usuário (USD, EUR, GBP, etc.).
 
-### 10. API ViaCEP (Uber) 🚖
+### 10. API ViaCEP (Uber) 
 Consome a API [ViaCEP](https://viacep.com.br/) para, dado um CEP de São Paulo, retornar bairro e zona (Norte, Sul, Leste, Oeste ou Centro).  
 Caso seja fora da capital, informa que é uma cidade vizinha da Grande São Paulo.
 
 ---
 
-## 🛠️ Tecnologias
+## Tecnologias
 - **Linguagem**: Python  
 - **Bibliotecas**:
   - `requests` → para consumo das APIs
