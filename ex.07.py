@@ -13,32 +13,38 @@ armazenado). Após esta entrada de dados, faça:
 numeros = []
 
 while True:
-    numero = int(input("Digite um numero(-1 para parar): "))
+    try:
+        numero = int(input("Digite um número (-1 para parar): "))
+    except ValueError:
+        print("Entrada inválida! Digite apenas números inteiros.")
+        continue
+
     if numero != -1:
         numeros.append(numero)
     else:
-        print("Quantidade de valores que foram lidos: ", len(numeros))
+        if not numeros:
+            print("Nenhum número foi informado.")
+            break
 
-        print("Todos os valores na ordem em que foram informados")
+        print("Quantidade de valores que foram lidos:", len(numeros))
+
+        print("Todos os valores na ordem em que foram informados:")
         for o in numeros:
             print(o, end=" ")
         print()
 
-        print("Todos os valores na ordem inversa à que foram informados")
+        print("Todos os valores na ordem inversa à que foram informados:")
         for i in reversed(numeros):
             print(i, end=" ")
         print()
 
-        print("A soma dos valores: ", sum(numeros))
+        print("A soma dos valores:", sum(numeros))
 
         media = sum(numeros) / len(numeros)
-        print("A média dos valores: ", media)
+        print("A média dos valores:", media)
 
-        numeros_acima_media = 0
-        for n in numeros:
-            if n > media:
-                numeros_acima_media += 1
-        print(f"A quantidade de valores acima da média calculada: {numeros_acima_media:.2f}")
+        numeros_acima_media = sum(1 for n in numeros if n > media)
+        print("A quantidade de valores acima da média calculada:", numeros_acima_media)
 
         break
 

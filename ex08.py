@@ -14,38 +14,50 @@ Permita que o usuário insira o nome do país (ex: italy, zambia, japan, canada,
 são retornados esses dados.
 ''' 
 
-pais = input("Digite o nome do país que deseja obter informações: ")
+pais = input("Digite o nome do país que deseja obter informações: ").strip()
 
 url = f"https://restcountries.com/v3.1/name/{pais}"
 
-response = requests.get(url)
+try:
+    response = requests.get(url)
+    response.raise_for_status()  
 
-if response.status_code == 200:
-    dados = response.json()[0]  
-
+    dados = response.json()[0]
 
     nome = dados["name"]["common"]
-    linguagens = ", ".join(dados["languages"].values())
-    regiao = dados["region"]
-    subregiao = dados["subregion"]
-    capital = ", ".join(dados["capital"])
-    sigla_moeda = list(dados["currencies"].keys())[0]
-    moeda = dados["currencies"][sigla_moeda]
-    nome_moeda = moeda["name"]
-    simbolo_moeda = moeda["symbol"]
+    linguagens = ", ".join(dados.get("languages", {}).values()) or "Não informado"
+    regiao = dados.get("region", "Não informado")
+    subregiao = dados.get("subregion", "Não informado")
+    capital = ", ".join(dados.get("capital", [])) or "Não informado"
+
+    
+    moedas = dados.get("currencies", {})
+    if moedas:
+        sigla_moeda = list(moedas.keys())[0]
+        moeda = moedas[sigla_moeda]
+        nome_moeda = moeda.get("name", "Não informado")
+        simbolo_moeda = moeda.get("symbol", "Não informado")
+    else:
+        sigla_moeda = nome_moeda = simbolo_moeda = "Não informado"
+
+   
     fronteiras = ", ".join(dados.get("borders", [])) or "Não possui"
 
     print(f"""
-    Nome do país: {nome}
-    Linguagem(s): {linguagens}
-    Região: {regiao}
-    Subregião: {subregiao}
-    Capital: {capital}
-    Sigla da moeda: {sigla_moeda}
-    Nome da moeda: {nome_moeda}
-    Símbolo da moeda: {simbolo_moeda}
-    Fronteiras: {fronteiras}
-    """)
+Nome do país: {nome}
+Linguagem(s): {linguagens}
+Região: {regiao}
+Subregião: {subregiao}
+Capital: {capital}
+Sigla da moeda: {sigla_moeda}
+Nome da moeda: {nome_moeda}
+Símbolo da moeda: {simbolo_moeda}
+Fronteiras: {fronteiras}
+""")
 
-else:
+except requests.exceptions.HTTPError:
     print(f"Erro: Não foi possível encontrar informações para o país '{pais}'.")
+except requests.exceptions.RequestException as e:
+    print(f"Ocorreu um erro ao acessar a API: {e}")
+except (KeyError, IndexError):
+    print("Erro ao processar os dados recebidos da API.")

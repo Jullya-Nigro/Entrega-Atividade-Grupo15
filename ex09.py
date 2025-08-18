@@ -15,22 +15,24 @@ X é o valor da cotação. Ex: O Real vale 5.42 dólares americanos, traduzindo 
 moeda para o nome completo (USD para dólares americanos).
 '''
 
-moeda = input("Digite a sigla da moeda: ").upper()
+try:
+    moeda = input("Digite a sigla da moeda (ex: USD, EUR, GBP): ").upper().strip()
 
-url = f"https://api.exchangerate-api.com/v4/latest/BRL"
+    url = "https://api.exchangerate-api.com/v4/latest/BRL"
+    response = requests.get(url)
+    response.raise_for_status()  
 
-response = requests.get(url)
-
-
-if response.status_code == 200:
     dados = response.json()
-    taxa = dados["rates"]
+    taxas = dados.get("rates", {})
 
-    if moeda in taxa:
-        valor = taxa[moeda]
+    if moeda in taxas:
+        valor = taxas[moeda]
         print(f"O Real vale {valor:.2f} {moeda}")
     else:
-        print("Moeda não encontrada na lista de cotações.")
-else:
-    print("Erro ao acessar a API.")
+        print("Moeda não encontrada na lista de cotações. Verifique a sigla e tente novamente.")
+
+except requests.exceptions.RequestException as e:
+    print(f"Erro ao acessar a API: {e}")
+except ValueError:
+    print("Erro ao processar os dados da API.")
 

@@ -12,24 +12,36 @@ sabendo-se que o preço do litro da gasolina é R$ 2,50 o preço do litro do ál
 '''
 
 def calculo_combustivel(combustivel, litros):
-    if (combustivel == "g"):
+    if combustivel == "g":
         valor = litros * 2.50
-        if (litros <= 20):
+        if litros <= 20:
             valor_total = valor - (valor * 0.03) 
         else:
             valor_total = valor - (valor * 0.05) 
 
-    elif(combustivel == "a"):
+    elif combustivel == "a":
         valor = litros * 1.90
-        if (litros <= 20):
+        if litros <= 20:
             valor_total = valor - (valor * 0.04) 
         else:
             valor_total = valor - (valor * 0.06) 
-        
+    else:
+        raise ValueError("Combustível inválido! Use 'g' para gasolina ou 'a' para álcool.")
+    
     return valor_total
 
-combustivel = input("Qual é o combustível | a- alcool, g-gasolina: ")
-litros = int(input("Quantos litros?: "))
-valor_combustivel = calculo_combustivel(combustivel, litros)
+try:
+    combustivel = input("Qual é o combustível | a- álcool, g- gasolina: ").lower().strip()
+    litros = float(input("Quantos litros?: "))
 
-print(f"O valor do combustívek é: {valor_combustivel:.2f}")
+    if litros <= 0:
+        raise ValueError("Quantidade de litros deve ser maior que zero.")
+
+    valor_combustivel = calculo_combustivel(combustivel, litros)
+    print(f"O valor do combustível é: R$ {valor_combustivel:.2f}")
+
+except ValueError as ve:
+    print(f"Erro: {ve}")
+
+except Exception as e:
+    print(f"Ocorreu um erro inesperado: {e}")

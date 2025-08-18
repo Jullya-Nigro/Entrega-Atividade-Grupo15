@@ -13,11 +13,11 @@ pra qual destino querem ou não aceitar corridas.
 
 cep = input("Digite o CEP do destino: ").replace("-", "").strip()
 
-url = f"https://viacep.com.br/ws/{cep}/json/"
+try:
+    url = f"https://viacep.com.br/ws/{cep}/json/"
+    response = requests.get(url)
+    response.raise_for_status()  
 
-response = requests.get(url)
-
-if response.status_code == 200:
     dados = response.json()
 
     if "erro" in dados:
@@ -31,6 +31,7 @@ if response.status_code == 200:
             print(f"O destino é em {cidade}/{uf}, fora da Grande São Paulo.")
         else:
             print(f"Bairro: {bairro}, Zona desconhecida de São Paulo")
-else:
-    print("Erro ao consultar a API.")
+
+except requests.exceptions.RequestException as e:
+    print(f"Erro ao consultar a API: {e}")
 
