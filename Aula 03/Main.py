@@ -1,10 +1,12 @@
 from flask import Flask, make_response, request, jsonify
 
 class UserRepository():
-    _users_id = 1
+    _users_id = 2
 
     def __init__(self):
-        self.users = {}
+        self.users = {
+            1: {"id": 1, "nome": "teste da silva", "email": "teste@gmail.com"}
+        }
 
     def add_user(self, user):
         user["id"] = UserRepository._users_id
@@ -18,14 +20,13 @@ class UserRepository():
         if userId not in self.users:        
             return {"status": 404, "mensagem": "Usuario não encontrado"}
 
-        if isinstance(user, dict):
-            if user.get("Nome") is not None:
-                self.users[userId]["Nome"] = user["Nome"]
-            
-            if user.get("Email") is not None:
-                self.users[userId]["Email"] = user["Email"]
+        if user.get("nome") is not None:
+            self.users[userId]["nome"] = user["nome"]
         
-        return {"status": 200, "mensagem": "Usuario atualizado com sucesso"}
+        if user.get("email") is not None:
+            self.users[userId]["email"] = user["email"]
+        
+        return {"status": 200, "mensagem": "Usuario atualizado com sucesso", "data": self.users[userId]}
     
     def delete_user(self, user_id):
         if user_id not in self.users:
@@ -49,12 +50,16 @@ class UserRepository():
 
 def formata_response(response):
     if response["status"] == 200 or response["status"] == 201:
-        return jsonify(response["data"]), response["status"]
+        return jsonify(response), response["status"]
     
-    return jsonify(response["mensagem"]), response["status"]
+    return jsonify(response), response["status"]
 
 def create_app():
     app = Flask(__name__)
+
+    app.config['JSON_SORT_KEYS'] = False
+    app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
+
     
     user_repository = UserRepository()
 
