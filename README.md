@@ -8,7 +8,7 @@ O objetivo foi aplicar conceitos de algoritmos, estruturas de decisão/repetiç�
 
 Jullya Mendonça – RA: 2402577
 
-Humberto Filho
+Humberto Filho - RA: 2402662
 
 Melissa Moura
 
