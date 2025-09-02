@@ -4,30 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tarefas</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .checkbox-wrapper {
-            display: flex;
-            align-items: center;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
     <h1>Tarefas</h1>
-    <a href="{{ url_for('index') }}">Voltar</a>
-    <a href="{{ url_for('create_task') }}">Cadastrar nova tarefa</a>
+    <div class="nav-links">
+        <a href="{{ url_for('index') }}" class="nav-link">Voltar</a>
+        <a href="{{ url_for('create_task') }}" class="nav-link">Cadastrar nova tarefa</a>
+    </div>
 
     <table>
         <thead>
@@ -36,23 +20,44 @@
                 <th>Usuário</th>
                 <th>Título</th>
                 <th>Descrição</th>
+                <th>Açoes</th>
             </tr>
         </thead>
         <tbody>
             {% for task in tasks %}
             <tr>
                 <td>
-                    <form action="{{ url_for('tasks') }}" method="POST" class="checkbox-wrapper">
-                        <input type="checkbox" 
-                               {% if task.status == 'Concluido' %}checked{% endif %}
-                               onchange="this.form.submit()"
-                               name="status">
-                        <input type="hidden" name="task_id" value="{{ task.id }}">
-                    </form>
+                    <span class="status-indicator {% if task.status == 'Concluido' %}status-completed{% else %}status-pending{% endif %}">
+                        {% if task.status == 'Concluido' %}
+                            Concluída
+                        {% else %}
+                            Pendente
+                        {% endif %}
+                    </span>
                 </td>
                 <td>{{task.user.name}}</td>
                 <td>{{task.title}}</td>
                 <td>{{task.description}}</td>
+                <td>
+                    <div style="display: flex; gap: 10px;">
+                        <form action="{{ url_for('update_task', task_id=task.id) }}" method="POST">
+                            <button type="submit" class="action-button">
+                                {% if task.status == 'Concluido' %}
+                                    Mover para Pendente
+                                {% else %}
+                                    Concluir?
+                                {% endif %}
+                            </button>
+                            <input type="hidden" name="task_id" value="{{ task.id }}">
+                            <input type="hidden" name="status" value="{% if task.status == 'Concluido' %}Pendente{% else %}Concluido{% endif %}">
+                        </form>
+                        <form action="{{ url_for('delete_task', task_id=task.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta tarefa?');">
+                            <button type="submit" class="action-button" style="background-color: #dc3545;">
+                                Excluir
+                            </button>
+                        </form>
+                    </div>
+                </td>
             </tr>
             {% endfor %}
         </tbody>

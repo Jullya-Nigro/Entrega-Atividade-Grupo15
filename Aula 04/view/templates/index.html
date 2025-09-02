@@ -3,17 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Page</title>
+    <title>Página Inicial</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <h1>Index Page</h1>
+    <h1>Sistema de Gerenciamento de Tarefas</h1>
 
-    <ul>
-        {% for user in users %}
-        <li>{{user.name}} - {{user.email}}</li>
-        {% endfor %}
-    </ul>
-    <a href="{{ url_for('contact') }}">Página de Cadastro</a>
-    <a href="{{ url_for('tasks') }}">Página de Tarefas</a>
+    <div class="nav-links">
+        <a href="{{ url_for('contact') }}" class="nav-link">Cadastrar Usuário</a>
+        <a href="{{ url_for('tasks') }}" class="nav-link">Gerenciar Tarefas</a>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{user.name}}</td>
+                <td>{{user.email}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </body>
 </html>

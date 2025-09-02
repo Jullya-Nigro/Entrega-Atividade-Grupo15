@@ -4,21 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <h1>Contact Page</h1>
+    <h1>Cadastro de Usuário</h1>
+    
+    <div class="nav-links">
+        <a href="{{ url_for('index') }}" class="nav-link">Voltar</a>
+    </div>
 
     <form method="POST">
         <label for="name">Nome</label>
         <input type="text" name="name" id="name" required>
 
-        <br/>
-
         <label for="email">Email</label>
         <input type="email" name="email" id="email" required>
 
-        <br/>
-        <button type="submit">Cadastrar</button>
+        <button type="submit" class="action-button">Cadastrar</button>
     </form>
 </body>
 </html>

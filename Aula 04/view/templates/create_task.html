@@ -4,29 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
     <h1>Adicionar uma tarefa</h1>
 
+    <div class="nav-links">
+        <a href="{{ url_for('tasks') }}" class="nav-link">Voltar para Tarefas</a>
+    </div>
+
     <form method="POST">
-        <label for="title">Titulo</label>
+        <label for="title">Título</label>
         <input type="text" name="title" id="title" required>
 
-        <br/>
         <label for="description">Descrição</label>
         <textarea name="description" id="description" required></textarea>
 
-        <br/>
-
+        <label for="user_id">Usuário</label>
         <select name="user_id" id="user_id" required>
-            <option value="" disabled selected>Selecione o usuario para a tarefa</option>
-            
+            <option value="" disabled selected>Selecione o usuário para a tarefa</option>
             {% for user in users %}
             <option value={{user.id}}>{{user.name}}</option>
             {% endfor %}
-
         </select>
-        <button type="submit">Criar nova tarefa</button>
+
+        <button type="submit" class="action-button">Criar nova tarefa</button>
     </form>
 </body>
 </html>
