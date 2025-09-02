@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Page</title>
+</head>
+<body>
+    <h1>Adicionar uma tarefa</h1>
+
+    <form method="POST">
+        <label for="title">Titulo</label>
+        <input type="text" name="title" id="title" required>
+
+        <br/>
+        <label for="description">Descrição</label>
+        <textarea name="description" id="description" required></textarea>
+
+        <br/>
+
+        <select name="user_id" id="user_id" required>
+            <option value="" disabled selected>Selecione o usuario para a tarefa</option>
+            
+            {% for user in users %}
+            <option value={{user.id}}>{{user.name}}</option>
+            {% endfor %}
+
+        </select>
+        <button type="submit">Criar nova tarefa</button>
+    </form>
+</body>
+</html>

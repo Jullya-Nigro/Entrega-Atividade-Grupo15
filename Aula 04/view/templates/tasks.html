@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarefas</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tarefas</h1>
+    <a href="{{ url_for('index') }}">Voltar</a>
+    <a href="{{ url_for('create_task') }}">Cadastrar nova tarefa</a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Status</th>
+                <th>Usuário</th>
+                <th>Título</th>
+                <th>Descrição</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+            <tr>
+                <td>
+                    <form action="{{ url_for('tasks') }}" method="POST" class="checkbox-wrapper">
+                        <input type="checkbox" 
+                               {% if task.status == 'Concluido' %}checked{% endif %}
+                               onchange="this.form.submit()"
+                               name="status">
+                        <input type="hidden" name="task_id" value="{{ task.id }}">
+                    </form>
+                </td>
+                <td>{{task.user.name}}</td>
+                <td>{{task.title}}</td>
+                <td>{{task.description}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
